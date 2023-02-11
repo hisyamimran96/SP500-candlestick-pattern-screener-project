@@ -1,0 +1,58 @@
+<html>
+<head>
+    <style>
+        body { font-family: 'Calibri'; font-size: 25; margin: 50px;}
+        td { padding: 10px;}
+        .bullish { background: green; color: white; text-align:center;}
+        .bearish { background: red; color: white; text-align:center; }
+    </style>
+</head>
+<body style="background-color: rgba(94, 68, 47, 0.651);">
+    <h1> S&P 500 Candlestick Pattern Screener </h1>
+
+    <!-- This is the dropdown bar inside form tag--> 
+    <form>
+        <!-- selection dropdown -->  
+        <select name = "pattern">
+            <!-- looping into pattern variable, which is passed from app.py --> 
+            {% for pattern in patterns%} 
+            <option value = "{{pattern}}" {% if pattern == pattern_ %} selected = "selected" {%endif%}> {{ patterns[pattern] }} </option>
+            {% endfor%}
+        <!-- input style set to submit and UI as 'Go'. This will let the user click onto the Go button a
+            nd the web path will point towards pattern = option --> 
+            <input type = "submit" value = "Go"> </input>
+        </select>
+        
+    </form>
+
+    <table>
+        <tr>
+            <th style="text-align:center">
+                TICKER
+            </th>
+            <th style="text-align:center">
+                COMPANY NAME 
+            </th>
+            <th style="text-align:center">
+                PATTERN
+            </th>
+        </tr>
+        {% for stock in stocks %}
+            {% if stocks[stock][pattern_] %}
+            <tr>
+                <td style="text-align:center">{{ stock }}</td>
+                <td style="text-align:center">{{stocks[stock]['company']}}</td>
+                <td class = '{{stocks[stock][pattern_]}}'>{{stocks[stock][pattern_]}}</td>
+
+            </tr>
+            <tr>
+                <td colspan = "3">
+                    <img src = "https://charts2.finviz.com/chart.ashx?t={{stock}}&ty=c&ta=0&p=d&s=l" />
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+</body>
+</html>
